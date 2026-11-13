@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.math.BigDecimal;
+import java.sql.SQLOutput;
 
 //! DealershipFileManager will be responsible for reading the dealership file. It will parse the data, create a
 //! Dealership object, and create each Vehicle to be added to the Dealership's inventory. It will ALSO be responsible
@@ -57,13 +58,17 @@ public class DealershipFileManager {
     }
 
     public void saveDealership(Dealership dealership) {
-//        try {
-//            BufferedWriter inventoryWriter = new BufferedWriter(new FileWriter(csvFile));
-//            inventoryWriter.write(dealership.toString());
-//            inventoryWriter.close();
-//        } catch (Exception e) {
-//            System.out.println("Error writing the file" + e.getMessage() + ".");
-//        }
+        try (BufferedWriter inventoryWriter = new BufferedWriter(new FileWriter(csvFile))) {
+            inventoryWriter.write(dealership.getName() + "|" + dealership.getAddress() + "|" + dealership.getPhone());
+            inventoryWriter.newLine();
+
+            for (Vehicle vehicle : dealership.getAllVehicles()) {
+                inventoryWriter.write(vehicle.toString());
+                inventoryWriter.newLine();
+            }
+        } catch (Exception e) {
+            System.out.println("Error writing the file: " + e.getMessage() + ".");
+        }
     }
 
 }

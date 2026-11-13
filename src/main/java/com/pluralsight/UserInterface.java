@@ -1,6 +1,7 @@
 package com.pluralsight;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 
 //! UserInterface will be responsible for all output to the screen, reading of user input, and using the
@@ -45,24 +46,31 @@ public class UserInterface {
                     processGetByPriceRequest();
                     break;
                 case 2:
+                    processGetByMakeModelRequest();
                     break;
                 case 3:
+                    processGetByYearRangeRequest();
                     break;
                 case 4:
                     processGetByColorRequest();
                     break;
                 case 5:
+                    processGetByMileageRequest();
                     break;
                 case 6:
+                    processGetByVehicleTypeRequest();
                     break;
                 case 7:
                     processGetAllVehiclesRequest();
                     break;
                 case 8:
+                    processAddVehicleRequest();
                     break;
                 case 9:
+                    processRemoveVehicleRequest();
                     break;
                 case 10:
+                    System.out.println("Sorry! This is not a functioning option at this time.");
                     break;
                 case 99:
                     appRunning = false;
@@ -85,10 +93,60 @@ public class UserInterface {
         int getByPriceRequestMin = InputToolbox.promptInt(
                 "Please enter the minimum price: ", 0);
         int getByPriceRequestMax = InputToolbox.promptInt(
-                "Please enter the maximum price: ", 0);
+                "Please enter the maximum price: ", getByPriceRequestMin);
         BigDecimal priceRequestMinAsBigDecimal = new BigDecimal(getByPriceRequestMin);
         BigDecimal priceRequestMaxAsBigDecimal = new BigDecimal(getByPriceRequestMax);
         displayVehicles(dealership.getVehiclesByPrice(priceRequestMinAsBigDecimal, priceRequestMaxAsBigDecimal));
+    }
+
+    public void processGetByMakeModelRequest() {
+        String getByMakeRequest = InputToolbox.promptString(
+                "Please enter the make you'd like to search for: ");
+        String getByModelRequest = InputToolbox.promptString(
+                "Please enter the model you'd like to search for: ");
+        displayVehicles(dealership.getVehiclesByMakeModel(getByMakeRequest, getByModelRequest));
+    }
+
+    public void processGetByYearRangeRequest() {
+        int getByYearRangeRequestStart = InputToolbox.promptInt(
+                "Please enter the start of the year range: ", 0);
+        int getByYearRangeRequestEnd = InputToolbox.promptInt(
+                "Please enter the end of the year range: ", getByYearRangeRequestStart);
+        displayVehicles(dealership.getVehiclesByYear(getByYearRangeRequestStart, getByYearRangeRequestEnd));
+    }
+
+    public void processGetByMileageRequest() {
+        int getByMileageRequestMin = InputToolbox.promptInt(
+                "Please enter the minimum mileage of the mileage range: ", 0);
+        int getByMileageRequestMax = InputToolbox.promptInt(
+                "Please enter the maximum mileage of the mileage range: ", getByMileageRequestMin);
+        displayVehicles(dealership.getVehiclesByMileage(getByMileageRequestMin, getByMileageRequestMax));
+    }
+
+    public void processGetByVehicleTypeRequest() {
+        String getByVehicleTypeRequest = InputToolbox.promptString(
+                "Please enter the vehicle type you'd like to search for (e.g. car, truck): ");
+        displayVehicles(dealership.getVehiclesByType(getByVehicleTypeRequest));
+    }
+
+    public void processAddVehicleRequest() {
+        int vin = InputToolbox.promptInt("Please enter the new vehicle's VIN: ", 0, Integer.MAX_VALUE);
+        int year =  InputToolbox.promptInt("Please enter the new vehicle's year: ", 1900, 2027);
+        String make = InputToolbox.promptString("Please enter the new vehicle's make: ");
+        String model = InputToolbox.promptString("Please enter the new vehicle's model: ");
+        String vehicleType = InputToolbox.promptString("Please enter the new vehicle's type (e.g. Car, Truck): ");
+        String color = InputToolbox.promptString("Please enter the new vehicle's color: ");
+        int odometer = InputToolbox.promptInt("Please enter the new vehicle's odometer reading: ", 0, 1000000);
+        int price = InputToolbox.promptInt("Please enter the new vehicle's price: ", 0, 1000000);
+        BigDecimal priceAsBigDecimal = new BigDecimal(price).setScale(2, RoundingMode.HALF_UP);
+        Vehicle newVehicle = new Vehicle(vin, year, make, model, vehicleType, color, odometer, priceAsBigDecimal);
+        dealership.addVehicle(newVehicle);
+        DealershipFileManager dealershipFileManager = new DealershipFileManager();
+        dealershipFileManager.saveDealership(dealership);
+    }
+
+    public void processRemoveVehicleRequest() {
+
     }
 
     public void processGetByColorRequest() {
