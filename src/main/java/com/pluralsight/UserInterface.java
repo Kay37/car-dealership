@@ -131,7 +131,7 @@ public class UserInterface {
 
     public void processAddVehicleRequest() {
         int vin = InputToolbox.promptInt("Please enter the new vehicle's VIN: ", 0, Integer.MAX_VALUE);
-        int year =  InputToolbox.promptInt("Please enter the new vehicle's year: ", 1900, 2027);
+        int year = InputToolbox.promptInt("Please enter the new vehicle's year: ", 1900, 2027);
         String make = InputToolbox.promptString("Please enter the new vehicle's make: ");
         String model = InputToolbox.promptString("Please enter the new vehicle's model: ");
         String vehicleType = InputToolbox.promptString("Please enter the new vehicle's type (e.g. Car, Truck): ");
@@ -146,7 +146,24 @@ public class UserInterface {
     }
 
     public void processRemoveVehicleRequest() {
+        int vin = InputToolbox.promptInt(
+                "Please enter the VIN of the vehicle you'd like to remove: ", 0, Integer.MAX_VALUE);
 
+        Vehicle found = null;
+        for (Vehicle vehicle : dealership.getAllVehicles()) {
+            if (vehicle.getVin() == vin) {
+                found = vehicle;
+                break;
+            }
+        }
+        if (found == null) {
+            System.out.println("No vehicle found with that VIN.");
+        } else {
+            dealership.removeVehicle(found);
+            System.out.println("Removed: " + found.getVin() + ", " + found.getYear() + " " + found.getMake() + " " + found.getModel());
+            DealershipFileManager dealershipFileManager = new DealershipFileManager();
+            dealershipFileManager.saveDealership(dealership);
+        }
     }
 
     public void processGetByColorRequest() {
