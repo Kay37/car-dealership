@@ -14,6 +14,7 @@ public class Vehicle {
     private int odometer;
     private BigDecimal price;
 
+    //! Our Vehicle constructor
     public Vehicle(int vin, int year, String make, String model, String vehicleType, String color, int odometer, BigDecimal price) {
         this.vin = vin;
         this.year = year;
@@ -24,7 +25,7 @@ public class Vehicle {
         this.odometer = odometer;
         this.price = price;
     }
-
+    //! Getters & Setters
     public int getVin() {
         return vin;
     }

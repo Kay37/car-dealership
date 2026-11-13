@@ -18,7 +18,7 @@ public class UserInterface {
     }
 
     //! Method to display.
-    //! It immediatelly calls the init method, which creates a DealershipFileManager and grabs the dealership.
+    //! It immediately calls the init method, which creates a DealershipFileManager and grabs the dealership.
     public void display() {
         init();
 
@@ -73,6 +73,7 @@ public class UserInterface {
                     System.out.println("Sorry! This is not a functioning option at this time.");
                     break;
                 case 99:
+                    System.out.println("Thanks for using our application! Goodbye.");
                     appRunning = false;
                     break;
                 default:

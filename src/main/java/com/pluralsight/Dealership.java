@@ -12,6 +12,7 @@ public class Dealership {
     private String phone;
     private ArrayList<Vehicle> inventory;
 
+    //! Constructor
     public Dealership(String name, String address, String phone) {
         this.name = name;
         this.address = address;
@@ -19,7 +20,7 @@ public class Dealership {
 
         this.inventory = new ArrayList<>();
     }
-
+    //! Getters & setters
     public String getName() {
         return name;
     }
@@ -81,6 +82,7 @@ public class Dealership {
         return vehiclesByPrice;
     }
 
+    //! Every other method for Dealership follows the same pattern of getVehiclesByPrice ^
     public ArrayList<Vehicle> getVehiclesByMakeModel(String make, String model) {
         ArrayList<Vehicle> vehiclesByMakeModel = new ArrayList<>();
 
