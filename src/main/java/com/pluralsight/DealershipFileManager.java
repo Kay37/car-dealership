@@ -68,17 +68,24 @@ public class DealershipFileManager {
         //! assembled dealership to wherever it was called from
         return dealership;
     }
-
+    //! method called saveDealership that runs its contents when called and provided a dealership object
     public void saveDealership(Dealership dealership) {
+        //! try-with-resources (BufferedWriter & fileWriter)
         try (BufferedWriter inventoryWriter = new BufferedWriter(new FileWriter(csvFile))) {
+            //! Write the dealership info line
             inventoryWriter.write(dealership.getName() + "|" + dealership.getAddress() + "|" + dealership.getPhone());
+            //! Create a new line for the vehicles to be placed on
             inventoryWriter.newLine();
-
+            //! for every vehicle in our dealership, using the getAllVehicles() derived getter
             for (Vehicle vehicle : dealership.getAllVehicles()) {
+                //! Write the vehicle's information using our Override toString
                 inventoryWriter.write(vehicle.toString());
+                //! Then write a new line for the next vehicle to go onto
                 inventoryWriter.newLine();
             }
+            //! handling our exceptions
         } catch (Exception e) {
+            //! Nice little error message
             System.out.println("Error writing the file: " + e.getMessage() + ".");
         }
     }

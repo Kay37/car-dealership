@@ -39,8 +39,10 @@ public class UserInterface {
             System.out.println("10 - Sell/Lease a Vehicle");
             System.out.println("99 - Quit");
 
+            //! Prompting the user for a menu selection and storing their answer
             int menuSelection = InputToolbox.promptInt(
                     "Please select an action from the menu (e.g. 1, 10, 99): ", 1, 99);
+            //! Switch statement for the different possible menu actions
             switch (menuSelection) {
                 case 1:
                     processGetByPriceRequest();
@@ -82,14 +84,15 @@ public class UserInterface {
             }
         }
     }
-
+    //! The init method creates a new DealershipFileManager object & provides that file manager with the dealership
     private void init() {
 
         DealershipFileManager dealershipFileManager = new DealershipFileManager();
         this.dealership = dealershipFileManager.getDealership();
 
     }
-
+    //! Ask user for price range, convert it into BigDecimal, and displayVehicles method displays all vehicles
+    //! from the dealership that match that price range
     public void processGetByPriceRequest() {
         int getByPriceRequestMin = InputToolbox.promptInt(
                 "Please enter the minimum price: ", 0);
@@ -99,7 +102,7 @@ public class UserInterface {
         BigDecimal priceRequestMaxAsBigDecimal = new BigDecimal(getByPriceRequestMax);
         displayVehicles(dealership.getVehiclesByPrice(priceRequestMinAsBigDecimal, priceRequestMaxAsBigDecimal));
     }
-
+    //! Pretty much the same logic as GetByPriceRequest
     public void processGetByMakeModelRequest() {
         String getByMakeRequest = InputToolbox.promptString(
                 "Please enter the make you'd like to search for: ");
@@ -107,7 +110,7 @@ public class UserInterface {
                 "Please enter the model you'd like to search for: ");
         displayVehicles(dealership.getVehiclesByMakeModel(getByMakeRequest, getByModelRequest));
     }
-
+    //! Pretty much the same logic as GetByPriceRequest
     public void processGetByYearRangeRequest() {
         int getByYearRangeRequestStart = InputToolbox.promptInt(
                 "Please enter the start of the year range: ", 0);
@@ -115,7 +118,7 @@ public class UserInterface {
                 "Please enter the end of the year range: ", getByYearRangeRequestStart);
         displayVehicles(dealership.getVehiclesByYear(getByYearRangeRequestStart, getByYearRangeRequestEnd));
     }
-
+    //! Pretty much the same logic as GetByPriceRequest
     public void processGetByMileageRequest() {
         int getByMileageRequestMin = InputToolbox.promptInt(
                 "Please enter the minimum mileage of the mileage range: ", 0);
@@ -123,13 +126,13 @@ public class UserInterface {
                 "Please enter the maximum mileage of the mileage range: ", getByMileageRequestMin);
         displayVehicles(dealership.getVehiclesByMileage(getByMileageRequestMin, getByMileageRequestMax));
     }
-
+    //! Pretty much the same logic as GetByPriceRequest
     public void processGetByVehicleTypeRequest() {
         String getByVehicleTypeRequest = InputToolbox.promptString(
                 "Please enter the vehicle type you'd like to search for (e.g. car, truck): ");
         displayVehicles(dealership.getVehiclesByType(getByVehicleTypeRequest));
     }
-
+    //! Prompt the user for every field that a vehicle object needs.
     public void processAddVehicleRequest() {
         int vin = InputToolbox.promptInt("Please enter the new vehicle's VIN: ", 0, Integer.MAX_VALUE);
         int year = InputToolbox.promptInt("Please enter the new vehicle's year: ", 1900, 2027);
@@ -139,10 +142,15 @@ public class UserInterface {
         String color = InputToolbox.promptString("Please enter the new vehicle's color: ");
         int odometer = InputToolbox.promptInt("Please enter the new vehicle's odometer reading: ", 0, 1000000);
         int price = InputToolbox.promptInt("Please enter the new vehicle's price: ", 0, 1000000);
+        //! convert the price to a big decimal (up to 2 decimal points included with .setScale)
         BigDecimal priceAsBigDecimal = new BigDecimal(price).setScale(2, RoundingMode.HALF_UP);
+        //! create a new vehicle with the user's answers
         Vehicle newVehicle = new Vehicle(vin, year, make, model, vehicleType, color, odometer, priceAsBigDecimal);
+        //! add the vehicle to the dealership
         dealership.addVehicle(newVehicle);
+        //! create a new file manager object
         DealershipFileManager dealershipFileManager = new DealershipFileManager();
+        //! call the saveDealership method with that file manager to rebuild the inventory.csv with the new addition
         dealershipFileManager.saveDealership(dealership);
     }
 
