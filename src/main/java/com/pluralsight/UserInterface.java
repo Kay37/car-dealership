@@ -181,8 +181,14 @@ public class UserInterface {
         if (vehicles.isEmpty()) {
             System.out.println("No vehicles found. ");
         } else {
+            System.out.printf("%-7s %-6s %-10s %-10s %-7s %-8s %9s %10s%n",
+                    "VIN", "Year", "Make", "Model", "Type", "Color", "Odometer", "Price");
+            System.out.println("-".repeat(74));
             for (Vehicle vehicle : vehicles) {
-                System.out.println(vehicle.toString());
+                String formattedPrice = String.format("$%,.2f", vehicle.getPrice());
+                System.out.printf("%-7d %-6d %-10s %-10s %-7s %-8s %,9d %10s%n",
+                        vehicle.getVin(), vehicle.getYear(), vehicle.getMake(), vehicle.getModel(),
+                        vehicle.getVehicleType(), vehicle.getColor(), vehicle.getOdometer(), formattedPrice);
             }
         }
 
