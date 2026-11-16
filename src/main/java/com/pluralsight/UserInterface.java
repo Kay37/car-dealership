@@ -44,43 +44,21 @@ public class UserInterface {
                     "Please select an action from the menu (e.g. 1, 10, 99): ", 1, 99);
             //! Switch statement for the different possible menu actions
             switch (menuSelection) {
-                case 1:
-                    processGetByPriceRequest();
-                    break;
-                case 2:
-                    processGetByMakeModelRequest();
-                    break;
-                case 3:
-                    processGetByYearRangeRequest();
-                    break;
-                case 4:
-                    processGetByColorRequest();
-                    break;
-                case 5:
-                    processGetByMileageRequest();
-                    break;
-                case 6:
-                    processGetByVehicleTypeRequest();
-                    break;
-                case 7:
-                    processGetAllVehiclesRequest();
-                    break;
-                case 8:
-                    processAddVehicleRequest();
-                    break;
-                case 9:
-                    processRemoveVehicleRequest();
-                    break;
-                case 10:
-                    System.out.println("Sorry! This is not a functioning option at this time.");
-                    break;
-                case 99:
+                case 1 -> processGetByPriceRequest();
+                case 2 -> processGetByMakeModelRequest();
+                case 3 -> processGetByYearRangeRequest();
+                case 4 -> processGetByColorRequest();
+                case 5 -> processGetByMileageRequest();
+                case 6 -> processGetByVehicleTypeRequest();
+                case 7 -> processGetAllVehiclesRequest();
+                case 8 -> processAddVehicleRequest();
+                case 9 -> processRemoveVehicleRequest();
+                case 10 -> System.out.println("Sorry! This is not a functioning option at this time.");
+                case 99 -> {
                     System.out.println("Thanks for using our application! Goodbye.");
                     appRunning = false;
-                    break;
-                default:
-                    System.out.println("Invalid selection. Please choose a valid number from the menu: ");
-                    break;
+                }
+                default -> System.out.println("Invalid selection. Please choose a valid number from the menu: ");
             }
         }
     }
